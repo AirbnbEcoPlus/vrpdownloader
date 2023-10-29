@@ -45,7 +45,7 @@ using System.Text;
 class Program
 {
     static void Main() {
-        string gameName = "The Climb 2 v974+2.2 -VRP" //REPLACE ME WITH THE FULL NAME;
+        string gameName = "The Climb 2 v974+2.2 -VRP"; //REPLACE ME WITH THE FULL NAME;
         string gameNameHash = string.Empty;
         using (MD5 md5 = MD5.Create())
                     {
