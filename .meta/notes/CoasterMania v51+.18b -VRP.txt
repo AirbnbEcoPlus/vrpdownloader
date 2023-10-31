@@ -1,3 +1,0 @@
-Mixed Reality Mode does not work
-it must be turned off in main menu before selecting game mode
-or you will get stuck in room setup loop

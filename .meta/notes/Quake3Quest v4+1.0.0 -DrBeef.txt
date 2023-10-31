@@ -1,1 +1,0 @@
-If the game doesnt launch or you revert to the demo for some reason, recopy the ioquake3quest folder to /sdcard/ or you may just need to overwrite pak0.pk3
