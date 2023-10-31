@@ -1,2 +1,0 @@
-Please see the Developers Git for additional instructions
-Github: https://github.com/thedroidgeek/oculus-wireless-adb
