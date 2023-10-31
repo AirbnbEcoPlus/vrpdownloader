@@ -1,0 +1,3 @@
+Note: Loader will autoinstall the full game plus HD models. If you dont want HD models delete sp_vpak5-8 and z_pak1.pk3 from /SDCARD/RTCWQuest/Main/ For enhanced AI, simply move sp_vpak9.pk3 into /SDCARD/RTCWQuest/Main/ or delete the '#' in front of the second to last line of install.txt. 
+Alternatively: copy and paste
+adb push sp_vpak9.pk3 /sdcard/RTCWQuest/Main/

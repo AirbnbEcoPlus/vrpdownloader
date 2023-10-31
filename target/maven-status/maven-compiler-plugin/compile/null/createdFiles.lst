@@ -1,6 +1,8 @@
-fr/airbnbecoplus/App.class
+fr/airbnbecoplus/App$1.class
 fr/airbnbecoplus/entity/Game.class
 fr/airbnbecoplus/DownloadManager.class
-fr/airbnbecoplus/ExtractManager.class
 module-info.class
+fr/airbnbecoplus/App.class
+fr/airbnbecoplus/App$1$1.class
+fr/airbnbecoplus/ExtractManager.class
 fr/airbnbecoplus/entity/PublicConfig.class

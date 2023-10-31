@@ -1,0 +1,2 @@
+After installation, open BMBF and click "Sync to Beat Saber".
+Launch Beat Saber.
