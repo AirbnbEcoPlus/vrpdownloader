@@ -22,7 +22,7 @@ public class ExtractManager {
         while ((line = br.readLine()) != null) {
             final String lineToAppend = line;
             Platform.runLater(() -> {
-                console.setText(console.getText() + lineToAppend + "\n");
+                console.setText(lineToAppend + "\n");
                 console.setScrollTop(Double.MAX_VALUE);
             });
         }
