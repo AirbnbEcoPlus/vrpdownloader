@@ -1,0 +1,8 @@
+1. Custom Repositories for covers added
+2. Backup & Restore Launcher settings added
+3. moved groups bar to bottom of window
+4. facebook shortcut added for opening launcher due to v59 fixed size 2d apps bug again
+
+make sure you have installed facebook from the store at least once so it shows in app library
+so it can be pinned to the universal menu for easy opening of launcher 
+

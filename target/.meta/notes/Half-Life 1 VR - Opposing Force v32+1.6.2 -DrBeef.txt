@@ -1,0 +1,1 @@
+You can only have one game installed at once either, hl1vr, blue shift, or opposing force. They all use the same apk so installing a new one will overwrite the one you have installed currently. To enable the included HD models for HL1 : Opposing Force enable "use materials" in video settings and shut VBO to off.

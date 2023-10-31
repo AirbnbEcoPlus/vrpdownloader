@@ -1,0 +1,1 @@
+If your system language is anything other than english, you will get an "Tutorial translation not found" error.
