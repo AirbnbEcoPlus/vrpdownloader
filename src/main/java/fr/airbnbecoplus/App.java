@@ -1,8 +1,14 @@
 package fr.airbnbecoplus;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +42,7 @@ public class App extends Application {
     ExtractManager extractManager = new ExtractManager();
     PublicConfig publicConfig;
     final String password = "gL59VfgPxoHR";
-
+    List<Game> games = new ArrayList<>();
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -54,6 +60,8 @@ public class App extends Application {
 
         VBox gamesDescription = new VBox();
         ImageView gameIcon = new ImageView();
+        gameIcon.setFitHeight(100);
+        gameIcon.setFitWidth(100);
         Label gameDesc = new Label();
         gamesDescription.getChildren().addAll(gameIcon, gameDesc);
 
@@ -65,13 +73,13 @@ public class App extends Application {
         borderPane.setLeft(terminalField);
 
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-           @Override
-           public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue){
-               
-           }
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                loadGameInformation(gameIcon, gameDesc, newValue);
+            }
         });
-
-
+        downloadButton.setOnAction(
+                event -> decryptAndDownloadGame(listView.getSelectionModel().getSelectedItem(), terminalField));
 
         stage.setTitle("VrpDownloader");
         stage.setScene(new Scene(borderPane, 600, 400));
@@ -97,21 +105,71 @@ public class App extends Application {
         downloadManifestService.start();
     }
 
-    public void loadGameInformation(ImageView gameIcon, Label gameDesc, String name){
-        
-    }
-
-    public void addGamesToListView(ListView listView){
-       String fileName = "VRP-GameList.txt"; // Remplacez "votre_fichier.txt" par le chemin réel de votre fichier.
-
-        List<Game> games = new ArrayList<>();
+    public void decryptAndDownloadGame(String name, TextArea console) {
+        Game currentGame = returnGameByName(name);
+        String gameName = currentGame.releaseName; // Remplacez ceci par le nom complet.
+        String gameNameHash = "";
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(fileName)); 
+            MessageDigest md5 = MessageDigest.getInstance("MD5");
+            byte[] bytes = (gameName + "\n").getBytes("UTF-8");
+            byte[] hash = md5.digest(bytes);
+
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hash) {
+                sb.append(String.format("%02x", b));
+            }
+
+            gameNameHash = sb.toString();
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        final String finalGameHash = gameNameHash;
+
+        final Service<Void> downloadGameService = new Service<Void>() {
+
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+
+                    @Override
+                    protected Void call() throws Exception {
+                        downloadManager.downloadGame(finalGameHash, console);
+                        extractManager.extract("./" + finalGameHash + ".7z.001", password, console);
+                        return null;
+                    }
+                };
+            }
+        };
+        downloadGameService.start();
+
+    }
+
+    public Game returnGameByName(String name) {
+        for (Game game : games) {
+            if (game.gameName.equals(name)) {
+                return game;
+            }
+        }
+        return null;
+    }
+
+    public void loadGameInformation(ImageView gameIcon, Label gameDesc, String name) {
+        Game currentGame = returnGameByName(name);
+        File imagePath = new File(".meta/thumbnails/" + currentGame.packageName + ".jpg");
+        gameIcon.setImage(new Image(imagePath.toURI().toString()));
+
+    }
+
+    public void addGamesToListView(ListView listView) {
+        String fileName = "VRP-GameList.txt"; // Remplacez "votre_fichier.txt" par le chemin réel de votre fichier.
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(fileName));
             String line;
             boolean firstLine = true;
             while ((line = br.readLine()) != null) {
-                if(firstLine){
+                if (firstLine) {
                     firstLine = false;
                     continue;
                 }
@@ -130,7 +188,7 @@ public class App extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        for(Game game : games){
+        for (Game game : games) {
             listView.getItems().add(game.gameName);
         }
     }

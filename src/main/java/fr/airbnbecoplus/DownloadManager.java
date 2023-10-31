@@ -9,6 +9,7 @@ import java.net.URL;
 import com.google.gson.Gson;
 
 import fr.airbnbecoplus.entity.PublicConfig;
+import javafx.application.Platform;
 import javafx.scene.control.TextArea;
 
 public class DownloadManager {
@@ -41,13 +42,31 @@ public class DownloadManager {
         BufferedReader br = new BufferedReader(isr);
 
         String line = null;
-        while ((line = br.readLine()) != null)
-            console.setText(console.getText() + line + "\n");
-            console.setScrollTop(Double.MIN_VALUE);
+        while ((line = br.readLine()) != null) {
+            final String lineToAppend = line;
+            Platform.runLater(() -> {
+                console.setText(console.getText() + lineToAppend + "\n");
+                console.setScrollTop(Double.MAX_VALUE);
+            });
+        }
     }
 
-    public void downloadGame(String fullName, TextArea console) {
+    public void downloadGame(String crypted, TextArea console) throws IOException {
+        Runtime rt = Runtime.getRuntime();
+        String[] commands = { "rclone", "copy", "--http-url", baseUri, ":http:/" + crypted + "/", "./", "--progress" };
+        Process proc = rt.exec(commands);
+        InputStream stdIn = proc.getInputStream();
+        InputStreamReader isr = new InputStreamReader(stdIn);
+        BufferedReader br = new BufferedReader(isr);
 
+        String line = null;
+        while ((line = br.readLine()) != null) {
+            final String lineToAppend = line;
+            Platform.runLater(() -> {
+                console.setText(console.getText() + lineToAppend + "\n");
+                console.setScrollTop(Double.MAX_VALUE);
+            });
+        }
     }
 
 }
