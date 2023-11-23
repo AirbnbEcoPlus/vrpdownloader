@@ -136,6 +136,7 @@ public class App extends Application {
                     protected Void call() throws Exception {
                         downloadManager.downloadGame(finalGameHash, console);
                         extractManager.extract("./" + finalGameHash + ".7z.001", password, console);
+                        console.setText("Finished");
                         return null;
                     }
                 };

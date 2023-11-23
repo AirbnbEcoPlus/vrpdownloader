@@ -16,7 +16,7 @@ public class DownloadManager {
 
     final String credentialsUrl = "https://wiki.vrpirates.club/downloads/vrp-public.json";
 
-    final String baseUri = "https://skrazzle.glomtom.cyou/";
+    final String baseUri = "https://theapp.vrrookie.xyz/";
     final String password = "gL59VfgPxoHR";
 
     // Pas fini de toute facon pratiquement inutile flemme de finir
