@@ -41,12 +41,9 @@ public class App extends Application {
     DownloadManager downloadManager = new DownloadManager();
     ExtractManager extractManager = new ExtractManager();
     PublicConfig publicConfig;
-    final String password = "gL59VfgPxoHR";
     List<Game> games = new ArrayList<>();
-
     @Override
     public void start(Stage stage) throws Exception {
-
         BorderPane borderPane = new BorderPane();
         ListView<String> listView = new ListView<String>();
         ToolBar topBar = new ToolBar();
@@ -84,7 +81,7 @@ public class App extends Application {
         stage.setTitle("VrpDownloader");
         stage.setScene(new Scene(borderPane, 600, 400));
         stage.show();
-
+        downloadManager.downloadCredentials(terminalField);
         // Download Info
         final Service<Void> downloadManifestService = new Service<Void>() {
 
@@ -95,7 +92,7 @@ public class App extends Application {
                     @Override
                     protected Void call() throws Exception {
                         downloadManager.downloadManifest(terminalField);
-                        extractManager.extract("./meta.7z", password, terminalField);
+                        extractManager.extract("meta.7z", downloadManager.publicConfig.password, terminalField);
                         addGamesToListView(listView);
                         return null;
                     }
@@ -135,7 +132,7 @@ public class App extends Application {
                     @Override
                     protected Void call() throws Exception {
                         downloadManager.downloadGame(finalGameHash, console);
-                        extractManager.extract("./" + finalGameHash + ".7z.001", password, console);
+                        extractManager.extract(finalGameHash + ".7z.001", downloadManager.publicConfig.password, console);
                         console.setText("Finished");
                         return null;
                     }
@@ -157,14 +154,14 @@ public class App extends Application {
 
     public void loadGameInformation(ImageView gameIcon, Label gameDesc, String name) {
         Game currentGame = returnGameByName(name);
-        File imagePath = new File(".meta/thumbnails/" + currentGame.packageName + ".jpg");
+        File imagePath = new File("./vrpdata/.meta/thumbnails/" + currentGame.packageName + ".jpg");
         gameIcon.setImage(new Image(imagePath.toURI().toString()));
+        gameDesc.setText(currentGame.size);
 
     }
 
     public void addGamesToListView(ListView listView) {
-        String fileName = "VRP-GameList.txt"; // Remplacez "votre_fichier.txt" par le chemin réel de votre fichier.
-
+        String fileName = "./vrpdata/VRP-GameList.txt"; 
         try {
             BufferedReader br = new BufferedReader(new FileReader(fileName));
             String line;

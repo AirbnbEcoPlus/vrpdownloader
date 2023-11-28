@@ -12,7 +12,7 @@ import javafx.scene.control.TextArea;
 public class ExtractManager {
     public void extract(String path, String password, TextArea console) throws IOException {
         Runtime rt = Runtime.getRuntime();
-        String[] commands = { "7z", "x", path, "-p" + password, "-aoa" };
+        String[] commands = { "7z", "x", "./vrpdata/" +  path, "-o./vrpdata/", "-p" + password, "-aoa" };
         Process proc = rt.exec(commands);
         InputStream stdIn = proc.getInputStream();
         InputStreamReader isr = new InputStreamReader(stdIn);
@@ -27,10 +27,5 @@ public class ExtractManager {
             });
         }
     }
-    //Pas utile cette merde en plus trop dangereux !
-    public void delete(String path) throws IOException{
-        Runtime rt = Runtime.getRuntime();
-        String[] commands = { "rm", "-R", path };
-        Process proc = rt.exec(commands);
-    }
+   
 }
