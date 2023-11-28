@@ -9,6 +9,7 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayDeque;
+import java.util.Base64;
 import java.util.Deque;
 
 import org.apache.http.HttpEntity;
@@ -68,9 +69,11 @@ public class DownloadManager {
                     Gson gson = new Gson();
                     // Remplacez MyClass.class par la classe que vous attendez en tant que résultat
                     PublicConfig config = gson.fromJson(content.toString(), PublicConfig.class);
-
+                    
                     // Faites quelque chose avec l'objet obtenu 
                     publicConfig = config;
+                    byte[] decodedBytes = Base64.getDecoder().decode(publicConfig.password);
+                    publicConfig.password = new String(decodedBytes);
                 }
             }
         } catch (IOException e) {
