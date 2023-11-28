@@ -1,1 +1,0 @@
-Note: If not using Rookie, see the manual install step required in install.txt.
