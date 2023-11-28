@@ -3,9 +3,9 @@ package fr.airbnbecoplus;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -24,12 +24,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -57,10 +55,9 @@ public class App extends Application {
 
         VBox gamesDescription = new VBox();
         ImageView gameIcon = new ImageView();
-        gameIcon.setFitHeight(100);
-        gameIcon.setFitWidth(100);
-        Label gameDesc = new Label();
-        gamesDescription.getChildren().addAll(gameIcon, gameDesc);
+        
+        Label gameSize = new Label();
+        gamesDescription.getChildren().addAll(gameIcon, gameSize);
 
         downloadButton.setText("Download");
         borderPane.setCenter(listView);
@@ -72,7 +69,7 @@ public class App extends Application {
         listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                loadGameInformation(gameIcon, gameDesc, newValue);
+                loadGameInformation(gameIcon, gameSize, newValue);
             }
         });
         downloadButton.setOnAction(
@@ -154,9 +151,13 @@ public class App extends Application {
 
     public void loadGameInformation(ImageView gameIcon, Label gameDesc, String name) {
         Game currentGame = returnGameByName(name);
-        File imagePath = new File("./vrpdata/.meta/thumbnails/" + currentGame.packageName + ".jpg");
-        gameIcon.setImage(new Image(imagePath.toURI().toString()));
-        gameDesc.setText(currentGame.size);
+        try{
+        InputStream imageStream = new FileInputStream("./vrpdata/.meta/thumbnails/" + currentGame.packageName + ".jpg");
+        gameIcon.setImage(new Image(imageStream));
+        } catch (Exception e ){
+            System.out.println(e);
+        }
+        gameDesc.setText("Taille : " + currentGame.size);
 
     }
 

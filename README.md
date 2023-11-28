@@ -1,6 +1,9 @@
 ### Motivations
 J'ai fait cette repo pour fournir un outil permettant d'utiliser les mirroirs VRP Public sur linux, je n'ai pas de pc sous windows et je n'ai pas d'argent a depenser dans ça. Cet outil ne fait que télécharger, il doit etre utiliser en complement de sidenoder par exemple ou ADB.
 
+##### Install
+Install 7zip and rclone
+
 Je ne suis aucunement affilier de près ou de loin au groupe VRPirates ni a leurs actions. 
 #### Manual mode
 ##### Download Configuration
